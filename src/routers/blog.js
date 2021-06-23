@@ -1,5 +1,6 @@
 const { SuccessModel } = require("../model/responseModel")
-const { getList } = require("../contuollers/blog")
+const { getList, getDetail } = require("../contuollers/blog")
+
 
 //处理博客相关的路由
 const handleBlogRoute = (req, res) => {
@@ -16,16 +17,22 @@ const handleBlogRoute = (req, res) => {
         // }
     }
     if (method === 'GET' && req.path === 'api/blog/detail') {
-        return {
-            message: '获取博客详情的接口'
-        }
+        const id = req.query.id
+        const detailData = detDetail(id);
+        return new SuccessModel(detailData)
+        // return {
+        //     message: '获取博客详情的接口'
+        // }
     }
     if (method === 'POST' && req.path === 'api/blog/new') {
+        const postData = req.body;
+        const newBlog createNewBlog();
         return {
             message: '新建博客的接口'
         }
     }
     if (method === 'POST' && req.path === 'api/blog/update') {
+        console.log(req.body)
         return {
             message: '更新博客的接口'
         }
