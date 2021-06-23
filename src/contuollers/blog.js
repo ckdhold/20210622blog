@@ -30,14 +30,26 @@ const getBlogDetail = (id) => {
 
 }
 // 创建博客
-const createNewBlog = (blogData) => {
+const createNewBlog = (blogData = {}) => {
     console.log('blogData', blogData)
     return {
         id: 1
     }
 }
+const updatedBlog = (id, blogData = {}) => {
+    console.log('id', id)
+    console.log('blogData', blogData)
+
+    return true
+}
+const deleteBlog = (id) => {
+    console.log('id', id)
+    return true
+}
 module.exports = {
     getBlogList,
     getBlogDetail,
-    createNewBlog
+    createNewBlog,
+    updatedBlog,
+    deleteBlog
 }
