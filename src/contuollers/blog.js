@@ -1,5 +1,5 @@
 // 博客相关的方法
-const getList = (author, keyword) => {
+const getBlogList = (author, keyword) => {
     //从数据库里拿数据
     // 先返回假数据
     return [
@@ -19,7 +19,7 @@ const getList = (author, keyword) => {
         }
     ]
 }
-const getDetail = (id) => {
+const getBlogDetail = (id) => {
     return {
         id: 2,
         title: '标题2',
@@ -29,7 +29,15 @@ const getDetail = (id) => {
     }
 
 }
+// 创建博客
+const createNewBlog = (blogData) => {
+    console.log('blogData', blogData)
+    return {
+        id: 1
+    }
+}
 module.exports = {
-    getList,
-    getDetail
+    getBlogList,
+    getBlogDetail,
+    createNewBlog
 }
