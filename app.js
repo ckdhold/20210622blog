@@ -43,20 +43,15 @@ const serverHandler = (req, res) => {
         // 博客相关路由
         const blogDataPromise = handleBlogRoute(req, res)
         if (blogDataPromise) {
-            blogDataPromise.then(blogData => {
+            blogDataPromise.then((blogData) => {
 
                 res.end(JSON.stringify(blogData))
             })
             return;
         }
-
-
         res.writeHead(404, { 'Content-Type': 'text/plain' })
         res.write('404 Not Found')
         res.end()
     })
-
-
-
 }
 module.exports = serverHandler;

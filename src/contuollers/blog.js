@@ -27,7 +27,7 @@ const createNewBlog = (blogData = {}) => {
     const content = blogData.content
     const author = blogData.author
     const createdAt = Date.now()
-    const sql = `insert into blogs (title, content, author, createdAt) values ('${title}', '${content}', '${author}', ${createdAt}')`
+    const sql = `insert into blogs (title, content, author, createdAt) values ('${title}', '${content}', '${author}', ${createdAt})`
     return execSQL(sql).then(insertedResult => {
         console.log('insertedResult', insertedResult)
         return {
@@ -37,14 +37,28 @@ const createNewBlog = (blogData = {}) => {
 }
 // 更新博客
 const updatedBlog = (id, blogData = {}) => {
-    console.log('id', id)
-    console.log('blogData', blogData)
+    const title = blogData.title
+    const content = blogData.content
 
-    return true
+    const sql = `update blogs set title='${title}', content='${content}' where id=${id}`
+    return execSQL(sql).then(updatedResult => {
+        console.log('updatedResult', updatedResult)
+        if (updatedResult.affectedRows > 0) {
+            return true
+        }
+        return false
+    })
 }
-const deleteBlog = (id) => {
-    console.log('id', id)
-    return true
+// 删除博客（实际最好用软删除'sate')
+const deleteBlog = (id, author) => {
+    const sql = `delete from blogs where id=${id} and author='${author}'`
+    return execSQL(sql).then(deleteResult => {
+        console.log('deleteResult', deleteResult)
+        if (deleteResult.affectedRows > 0) {
+            return true
+        }
+        return false
+    })
 }
 module.exports = {
     getBlogList,
