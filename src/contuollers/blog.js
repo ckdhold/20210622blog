@@ -1,41 +1,41 @@
-// 博客相关的方法
+const { execSQL } = require('../db/mysql')
+// 获取博客列表
 const getBlogList = (author, keyword) => {
     //从数据库里拿数据
-    // 先返回假数据
-    return [
-        {
-            id: 1,
-            title: '标题1',
-            content: 'neirong1',
-            author: 'zhangsan',
-            createAt: 1624430490007
-        },
-        {
-            id: 2,
-            title: '标题2',
-            content: 'neirong2',
-            author: 'zhangsan2',
-            createAt: 1624430490027
-        }
-    ]
-}
-const getBlogDetail = (id) => {
-    return {
-        id: 2,
-        title: '标题2',
-        content: 'neirong2',
-        author: 'zhangsan2',
-        createAt: 1624430490027
+    let sql = `select * from blogs where 1=1 `
+    if (author) {
+        sql += `and author='${author}' `
     }
+    if (keyword) {
+        sql += `and title like '%${keyword}%'`
+    }
+    //promise
+    return execSQL(sql)
+}
+// 获取博客详情
+const getBlogDetail = (id) => {
+    const sql = `select * from blogs where id='${id}'`
 
+    return execSQL(sql).then(rows => {
+        console.log('rows', rows)
+        return rows[0]
+    })
 }
 // 创建博客
 const createNewBlog = (blogData = {}) => {
-    console.log('blogData', blogData)
-    return {
-        id: 1
-    }
+    const title = blogData.title
+    const content = blogData.content
+    const author = blogData.author
+    const createdAt = Date.now()
+    const sql = `insert into blogs (title, content, author, createdAt) values ('${title}', '${content}', '${author}', ${createdAt}')`
+    return execSQL(sql).then(insertedResult => {
+        console.log('insertedResult', insertedResult)
+        return {
+            id: insertedResult.insertId
+        }
+    })
 }
+// 更新博客
 const updatedBlog = (id, blogData = {}) => {
     console.log('id', id)
     console.log('blogData', blogData)

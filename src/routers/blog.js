@@ -8,29 +8,36 @@ const handleBlogRoute = (req, res) => {
     const method = req.method
     const id = req.query.id
     const blogData = req.body;
-
+    // 获取博客列表
     if (method === 'GET' && req.path === '/api/blog/list') {
+
         const author = req.query.author || ''
         const keyword = req.query.keyword || ''
-        const listData = getBlogList(author, keyword)
-        return new SuccessModel(listData)
-        // return {
-        //     message: '获取博客列表的接口'
-        // }
+        const listDataPromise = getBlogList(author, keyword)
+        return listDataPromise.then(listData => {
+            return new SuccessModel(listData)
+        })
     }
+    // 获取博客详情
     if (method === 'GET' && req.path === '/api/blog/detail') {
-
-        const detailData = detDetail(id);
-        return new SuccessModel(detailData)
-        // return {
-        //     message: '获取博客详情的接口'
-        // }
+        const detailDataPromise = getBlogDetail(id)
+        return detailDataPromise.then(detailData => {
+            return new SuccessModel(detailData)
+        })
     }
+    // 新增博客
     if (method === 'POST' && req.path === '/api/blog/new') {
 
-        const newBlogData = createNewBlog(blogData);
-        return new SuccessModel(newBlogData)
+        // const newBlogData = createNewBlog(blogData);
+        // return new SuccessModel(newBlogData)
+        const author = 'ckd'
+        req.body.author = author
+        const newBlogDataPromise = createNewBlog(blogData);
+        return newBlogDataPromise.then(newBlogdata => {
+            return new SuccessModel(newBlogData)
+        })
     }
+    // 更新博客
     if (method === 'POST' && req.path === '/api/blog/update') {
         const updatedBlogData = updatedBlog(id, blogData)
         if (updatedBlogData) {
